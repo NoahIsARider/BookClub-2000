@@ -3,6 +3,25 @@
 import { useState, useEffect, useCallback } from 'react';
 import { demoApi, type RoomSummary } from '@/lib/bookclub-demo';
 
+const developerLinkGroups = [
+  {
+    title: '开发者链接',
+    links: [
+      { label: '个人主页', href: 'https://noahisarider.github.io/' },
+      { label: 'GitHub 主页', href: 'https://github.com/NoahIsARider' },
+      { label: '豆瓣读书', href: 'https://www.douban.com/people/227017213/' },
+    ],
+  },
+  {
+    title: '其他项目',
+    links: [
+      { label: 'Geek RSS', href: 'https://geek-rss.vercel.app/' },
+      { label: 'Ark RSS', href: 'https://ark-rss.vercel.app/' },
+      { label: '神秘电子海洋生物', href: 'https://clawbot-triton.vercel.app/' },
+    ],
+  },
+] as const;
+
 export default function HomePage() {
   const [rooms, setRooms] = useState<RoomSummary[]>([]);
   const [showCreate, setShowCreate] = useState(false);
@@ -77,7 +96,7 @@ export default function HomePage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div style={{ minHeight: '100vh', padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
       {/* Main Window */}
       <div className="win-window" style={{ width: '100%', maxWidth: 700 }}>
         {/* Title Bar */}
@@ -210,6 +229,53 @@ export default function HomePage() {
           </div>
           <div className="win-status-section" style={{ flex: 'none', width: 120, textAlign: 'center' }}>
             BookClub 2000 v1.0
+          </div>
+        </div>
+      </div>
+
+      <div className="win-window" style={{ width: '100%', maxWidth: 700 }}>
+        <div className="win-title-bar win-title-bar-inactive">
+          <span>关于开发者</span>
+          <div style={{ display: 'flex', gap: 2 }}>
+            <button className="win-title-button">_</button>
+            <button className="win-title-button">□</button>
+            <button className="win-title-button">×</button>
+          </div>
+        </div>
+
+        <div style={{ padding: 12, background: '#D4D0C8' }}>
+          <div style={{ fontSize: 11, marginBottom: 10, color: '#333333' }}>
+            这个软件由 NoahIsARider 开发，欢迎继续浏览我的主页、代码仓库和其他项目。
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 16 }}>
+            {developerLinkGroups.map(group => (
+              <div key={group.title}>
+                <div style={{ fontSize: 11, fontWeight: 'bold', marginBottom: 8, paddingBottom: 4, borderBottom: '1px solid #808080' }}>
+                  {group.title}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {group.links.map(link => (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{ fontSize: 11, display: 'inline-flex', alignItems: 'center', gap: 4 }}
+                    >
+                      <span style={{ color: '#000000', textDecoration: 'none' }}>[&gt;</span>
+                      <span>{link.label}</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="win-status-bar">
+          <div className="win-status-section" style={{ textAlign: 'center' }}>
+            Made with love by NoahIsARider
           </div>
         </div>
       </div>
