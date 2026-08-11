@@ -75,7 +75,7 @@ test('seeds demo data and supports the full collaboration flow', () => {
   assert.equal(discussions[0].replies.length, 1);
 
   const exported = demo.exportRoom(createdRoom.id);
-  assert.match(exported.markdown, /存在与时间 - 共读纪要/);
+  assert.match(exported.markdown, /存在与时间 - Reading Notes/);
   assert.match(exported.markdown, /Alice/);
   assert.match(exported.markdown, /第一章 导论/);
 });

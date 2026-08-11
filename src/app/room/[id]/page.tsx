@@ -74,7 +74,7 @@ function RoomContent() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${exported.book_title}-共读纪要.md`;
+      a.download = `${exported.book_title}-reading-notes.md`;
       a.click();
       URL.revokeObjectURL(url);
     } catch {
@@ -87,9 +87,9 @@ function RoomContent() {
       <div style={{ minHeight: '100vh', padding: 20, display: 'flex', justifyContent: 'center' }}>
         <div className="win-window" style={{ width: 400, padding: 20, textAlign: 'center' }}>
           <div className="win-title-bar" style={{ margin: '-2px -2px 10px -2px' }}>
-            <span>加载中...</span>
+            <span>Loading...</span>
           </div>
-          <div style={{ padding: 20 }}>正在连接读书房间...</div>
+          <div style={{ padding: 20 }}>Connecting to reading room...</div>
         </div>
       </div>
     );
@@ -100,11 +100,11 @@ function RoomContent() {
       <div style={{ minHeight: '100vh', padding: 20, display: 'flex', justifyContent: 'center' }}>
         <div className="win-window" style={{ width: 400 }}>
           <div className="win-title-bar" style={{ margin: '-2px -2px 0 -2px' }}>
-            <span>错误</span>
+            <span>Error</span>
           </div>
           <div style={{ padding: 20, textAlign: 'center', background: '#D4D0C8' }}>
-            <div style={{ marginBottom: 12 }}>房间不存在或已被删除</div>
-            <Link href="/" className="win-button" style={{ display: 'inline-block', textDecoration: 'none', color: '#000' }}>返回首页</Link>
+            <div style={{ marginBottom: 12 }}>Room not found or has been deleted</div>
+            <Link href="/" className="win-button" style={{ display: 'inline-block', textDecoration: 'none', color: '#000' }}>Back to Home</Link>
           </div>
         </div>
       </div>
@@ -129,14 +129,14 @@ function RoomContent() {
               {room.description && <div style={{ fontSize: 11, color: '#666', marginTop: 4 }}>{room.description}</div>}
             </div>
             <div style={{ fontSize: 11, marginBottom: 8 }}>
-              已有 {room.members.length} 位成员 | {room.chapters.length} 个章节
+              {room.members.length} members | {room.chapters.length} chapters
             </div>
             <div style={{ fontSize: 11, marginBottom: 8 }}>
-              邀请码: <span style={{ fontFamily: 'monospace', fontWeight: 'bold', letterSpacing: 1 }}>{room.invite_code}</span>
+              Invite code: <span style={{ fontFamily: 'monospace', fontWeight: 'bold', letterSpacing: 1 }}>{room.invite_code}</span>
             </div>
             <div style={{ display: 'flex', gap: 4, justifyContent: 'flex-end' }}>
-              <Link href="/" className="win-button" style={{ display: 'inline-block', textDecoration: 'none', color: '#000' }}>返回</Link>
-              <button className="win-button" onClick={() => setShowJoin(true)} style={{ fontWeight: 'bold' }}>加入读书会</button>
+              <Link href="/" className="win-button" style={{ display: 'inline-block', textDecoration: 'none', color: '#000' }}>Back</Link>
+              <button className="win-button" onClick={() => setShowJoin(true)} style={{ fontWeight: 'bold' }}>Join Club</button>
             </div>
           </div>
         </div>
@@ -150,22 +150,22 @@ function RoomContent() {
       <div style={{ minHeight: '100vh', padding: 20, display: 'flex', justifyContent: 'center' }}>
         <div className="win-window" style={{ width: 350 }}>
           <div className="win-title-bar" style={{ margin: '-2px -2px 0 -2px' }}>
-            <span>加入读书会</span>
+            <span>Join Club</span>
           </div>
           <div style={{ padding: 16, background: '#D4D0C8' }}>
-            <div style={{ fontSize: 11, marginBottom: 8 }}>请输入你的昵称:</div>
+            <div style={{ fontSize: 11, marginBottom: 8 }}>Enter your nickname:</div>
             <input
               className="win-input"
               style={{ width: '100%', marginBottom: 8 }}
               value={joinNickname}
               onChange={e => setJoinNickname(e.target.value)}
-              placeholder="你的昵称"
+              placeholder="Your nickname"
               autoFocus
               onKeyDown={e => { if (e.key === 'Enter') handleJoin(); }}
             />
             <div style={{ display: 'flex', gap: 4, justifyContent: 'flex-end' }}>
-              <button className="win-button" onClick={() => setShowJoin(false)}>取消</button>
-              <button className="win-button" onClick={handleJoin} style={{ fontWeight: 'bold' }}>确认加入</button>
+              <button className="win-button" onClick={() => setShowJoin(false)}>Cancel</button>
+              <button className="win-button" onClick={handleJoin} style={{ fontWeight: 'bold' }}>Join Now</button>
             </div>
           </div>
         </div>
@@ -189,9 +189,10 @@ function RoomContent() {
 
         {/* Menu Bar */}
         <div className="win-menu-bar">
-          <span className="win-menu-item"><Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>首页</Link></span>
-          <span className="win-menu-item" onClick={() => setShowAddChapter(true)}>添加章节</span>
-          <span className="win-menu-item" onClick={handleExport}>导出纪要</span>
+          <span className="win-menu-item"><Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>Home</Link></span>
+          <span className="win-menu-item"><Link href="/reading-log" style={{ color: 'inherit', textDecoration: 'none' }}>Reading Log</Link></span>
+          <span className="win-menu-item" onClick={() => setShowAddChapter(true)}>Add Chapter</span>
+          <span className="win-menu-item" onClick={handleExport}>Export Notes</span>
         </div>
 
         {/* Content Area */}
@@ -205,14 +206,14 @@ function RoomContent() {
                 onClick={() => setActiveTab('chapters')}
                 style={{ flex: 1, textAlign: 'center' }}
               >
-                章节
+                Chapters
               </div>
               <div
                 className={`win-tab ${activeTab === 'members' ? 'win-tab-active' : ''}`}
                 onClick={() => setActiveTab('members')}
                 style={{ flex: 1, textAlign: 'center' }}
               >
-                成员
+                Members
               </div>
             </div>
 
@@ -221,7 +222,7 @@ function RoomContent() {
                 <>
                   {room.chapters.length === 0 ? (
                     <div style={{ padding: 12, textAlign: 'center', color: '#808080', fontSize: 11 }}>
-                      暂无章节<br />点击上方"添加章节"
+                      No chapters yet<br />Click "Add Chapter" above
                     </div>
                   ) : (
                     room.chapters.map((ch: ChapterSummary, idx) => (
@@ -240,7 +241,7 @@ function RoomContent() {
               ) : (
                 <>
                   <div style={{ padding: '4px 2px', fontSize: 11, fontWeight: 'bold', borderBottom: '1px solid #C0C0C0', marginBottom: 4 }}>
-                    当前身份:
+                    Current identity:
                   </div>
                   <div className="win-tree-item selected" style={{ marginBottom: 4 }}>
                     <span style={{
@@ -250,7 +251,7 @@ function RoomContent() {
                     <span>{currentMember?.nickname}</span>
                   </div>
                   <div style={{ padding: '4px 2px', fontSize: 11, fontWeight: 'bold', borderBottom: '1px solid #C0C0C0', marginBottom: 4, marginTop: 8 }}>
-                    全部成员 ({room.members.length}):
+                    All members ({room.members.length}):
                   </div>
                   {room.members.map(m => (
                     <div key={m.id} className="win-tree-item">
@@ -275,30 +276,30 @@ function RoomContent() {
                   {room.book_title}
                 </div>
                 {room.author && (
-                  <div style={{ fontSize: 11, color: '#666' }}>作者: {room.author}</div>
+                  <div style={{ fontSize: 11, color: '#666' }}>Author: {room.author}</div>
                 )}
                 {room.description && (
                   <div style={{ fontSize: 11, color: '#444', marginTop: 4 }}>{room.description}</div>
                 )}
                 <div style={{ fontSize: 10, color: '#808080', marginTop: 4 }}>
-                  邀请码: {room.invite_code} | {room.members.length} 位成员 | {room.chapters.length} 个章节 | 本地演示数据
+                  Invite code: {room.invite_code} | {room.members.length} members | {room.chapters.length} chapters | local demo data
                 </div>
               </div>
 
               {/* Welcome / Instructions */}
               <div style={{ padding: 16, flex: 1 }}>
-                <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 8 }}>使用说明</div>
+                <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 8 }}>How to use</div>
                 <div style={{ fontSize: 11, lineHeight: 1.8 }}>
-                  <div>1. 点击左侧"添加章节"上传书目内容（支持粘贴文本）</div>
-                  <div>2. 点击章节进入阅读视图</div>
-                  <div>3. 在阅读视图中选中文本，添加批注</div>
-                  <div>4. 在讨论区按章节展开讨论</div>
-                  <div>5. 点击"导出纪要"下载 Markdown 格式的讨论记录</div>
+                  <div>1. Click "Add Chapter" on the left to upload book content (paste text works)</div>
+                  <div>2. Click a chapter to open the reading view</div>
+                  <div>3. Select text in the reading view to add an annotation</div>
+                  <div>4. Discuss each chapter in the discussion panel</div>
+                  <div>5. Click "Export Notes" to download the discussion log as Markdown</div>
                 </div>
 
                 {room.chapters.length > 0 && (
                   <div style={{ marginTop: 16 }}>
-                    <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 8 }}>章节目录</div>
+                    <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 8 }}>Chapter list</div>
                     {room.chapters.map((ch, idx) => (
                       <a
                         key={ch.id}
@@ -310,7 +311,7 @@ function RoomContent() {
                           border: '1px solid #E0E0E0',
                         }}
                       >
-                        第{idx + 1}章: {ch.title}
+                        Chapter {idx + 1}: {ch.title}
                       </a>
                     ))}
                   </div>
@@ -323,10 +324,10 @@ function RoomContent() {
         {/* Status Bar */}
         <div className="win-status-bar">
           <div className="win-status-section">
-            当前用户: {currentMember?.nickname}
+            Current user: {currentMember?.nickname}
           </div>
           <div className="win-status-section" style={{ flex: 'none', width: 120, textAlign: 'center' }}>
-            {room.chapters.length} 章节
+            {room.chapters.length} chapters
           </div>
         </div>
       </div>
@@ -340,33 +341,33 @@ function RoomContent() {
         }}>
           <div className="win-window" style={{ width: 500, maxHeight: '80vh' }}>
             <div className="win-title-bar">
-              <span>添加章节</span>
+              <span>Add Chapter</span>
               <button className="win-title-button" onClick={() => setShowAddChapter(false)}>×</button>
             </div>
             <div style={{ padding: 12, background: '#D4D0C8' }}>
               <div style={{ marginBottom: 8 }}>
-                <label style={{ fontSize: 11, display: 'block', marginBottom: 2 }}>章节标题:</label>
+                <label style={{ fontSize: 11, display: 'block', marginBottom: 2 }}>Chapter title:</label>
                 <input
                   className="win-input"
                   style={{ width: '100%' }}
                   value={newChapterTitle}
                   onChange={e => setNewChapterTitle(e.target.value)}
-                  placeholder="如：第一章 宇宙闪烁"
+                  placeholder="e.g. Chapter 1 — The Universe Flickers"
                 />
               </div>
               <div style={{ marginBottom: 8 }}>
-                <label style={{ fontSize: 11, display: 'block', marginBottom: 2 }}>章节内容:</label>
+                <label style={{ fontSize: 11, display: 'block', marginBottom: 2 }}>Chapter content:</label>
                 <textarea
                   className="win-textarea"
                   style={{ width: '100%', height: 250 }}
                   value={newChapterContent}
                   onChange={e => setNewChapterContent(e.target.value)}
-                  placeholder="粘贴或输入章节文本内容..."
+                  placeholder="Paste or type the chapter text..."
                 />
               </div>
               <div style={{ display: 'flex', gap: 4, justifyContent: 'flex-end' }}>
-                <button className="win-button" onClick={() => setShowAddChapter(false)}>取消</button>
-                <button className="win-button" onClick={handleAddChapter} style={{ fontWeight: 'bold' }}>添加</button>
+                <button className="win-button" onClick={() => setShowAddChapter(false)}>Cancel</button>
+                <button className="win-button" onClick={handleAddChapter} style={{ fontWeight: 'bold' }}>Add</button>
               </div>
             </div>
           </div>
@@ -378,7 +379,7 @@ function RoomContent() {
 
 export default function RoomPage() {
   return (
-    <Suspense fallback={<div style={{ padding: 20, textAlign: 'center' }}>加载中...</div>}>
+    <Suspense fallback={<div style={{ padding: 20, textAlign: 'center' }}>Loading...</div>}>
       <RoomContent />
     </Suspense>
   );

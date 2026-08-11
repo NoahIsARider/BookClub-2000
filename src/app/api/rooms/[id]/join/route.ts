@@ -10,7 +10,7 @@ export async function POST(
   const { nickname } = body;
 
   if (!nickname) {
-    return NextResponse.json({ error: '请输入昵称' }, { status: 400 });
+    return NextResponse.json({ error: 'Please enter a nickname' }, { status: 400 });
   }
 
   const client = getSupabaseClient();
@@ -45,7 +45,7 @@ export async function POST(
     .insert({ room_id: roomId, nickname, color })
     .select()
     .single();
-  if (error) throw new Error(`加入失败: ${error.message}`);
+  if (error) throw new Error(`Join failed: ${error.message}`);
 
   return NextResponse.json({ data }, { status: 201 });
 }

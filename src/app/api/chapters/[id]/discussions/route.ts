@@ -13,7 +13,7 @@ export async function GET(
     .eq('chapter_id', chapterId)
     .is('parent_id', null)
     .order('created_at', { ascending: true });
-  if (error) throw new Error(`查询失败: ${error.message}`);
+  if (error) throw new Error(`Query failed: ${error.message}`);
 
   // Get replies for each top-level discussion
   const topLevel = data || [];
@@ -26,7 +26,7 @@ export async function GET(
       .select('*, room_members(nickname, color)')
       .in('parent_id', allIds)
       .order('created_at', { ascending: true });
-    if (repliesError) throw new Error(`查询回复失败: ${repliesError.message}`);
+    if (repliesError) throw new Error(`Failed to query replies: ${repliesError.message}`);
     replies = repliesData || [];
   }
 
@@ -47,7 +47,7 @@ export async function POST(
   const { member_id, content, parent_id } = body;
 
   if (!member_id || !content) {
-    return NextResponse.json({ error: '缺少必填字段' }, { status: 400 });
+    return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
   }
 
   const client = getSupabaseClient();
@@ -61,7 +61,7 @@ export async function POST(
     })
     .select('*, room_members(nickname, color)')
     .single();
-  if (error) throw new Error(`创建讨论失败: ${error.message}`);
+  if (error) throw new Error(`Failed to create discussion: ${error.message}`);
 
   return NextResponse.json({ data }, { status: 201 });
 }

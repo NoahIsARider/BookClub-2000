@@ -1,65 +1,67 @@
 # AGENTS.md
 
-## 项目概览
-BookClub 2000 - 电子书/长文共读俱乐部。异步共读协作平台，支持创建读书房间、上传章节、段落批注、讨论线程和导出纪要。
+## Project Overview
+BookClub 2000 — a Windows 2000-styled asynchronous co-reading club. Create reading rooms, upload chapters, annotate passages, run discussion threads, and export notes. Also serves as the developer's personal reading log (`/reading-log`).
 
-## 技术栈
-- **Framework**: Next.js 16 (App Router)
-- **Core**: React 19
-- **Language**: TypeScript 5
-- **UI**: 自定义 Windows 2000/XP 风格（非 shadcn/ui）
-- **Styling**: Tailwind CSS 4 + 自定义 CSS
-- **Database**: Supabase (PostgreSQL)
-- **包管理**: pnpm
+## Tech Stack
+- **Framework**: Next.js 16 (App Router) + TypeScript
+- **UI**: Custom Windows 2000/XP style (win-* classes, not shadcn/ui)
+- **Styling**: Tailwind CSS 4 + custom CSS
+- **Package manager**: pnpm
 
-## 构建与运行
+## Build & Run
 ```bash
-pnpm install          # 安装依赖
-pnpm run dev          # 开发环境
-pnpm run build        # 构建
-pnpm run start        # 生产启动
+pnpm install          # install dependencies
+pnpm run dev          # development
+pnpm run build        # build
+pnpm run start        # production start
 ```
 
-## 目录结构
+## Directory Structure
 ```
 src/
 ├── app/
-│   ├── page.tsx                    # 首页 - 房间列表/创建/加入
-│   ├── layout.tsx                  # 根布局
-│   ├── globals.css                 # Windows 2000 风格全局样式
+│   ├── page.tsx                    # Home - room list/create/join
+│   ├── reading-log/page.tsx        # Personal reading log
+│   ├── layout.tsx                  # Root layout
+│   ├── globals.css                 # Windows 2000 global styles
 │   ├── api/
-│   │   ├── rooms/route.ts          # GET 房间列表, POST 创建房间
-│   │   ├── rooms/[id]/route.ts     # GET 房间详情
-│   │   ├── rooms/[id]/join/route.ts # POST 加入房间
-│   │   ├── rooms/[id]/chapters/route.ts # GET/POST 章节
-│   │   ├── chapters/[id]/route.ts  # GET 章节详情
-│   │   ├── chapters/[id]/annotations/route.ts # GET/POST 批注
-│   │   ├── chapters/[id]/discussions/route.ts # GET/POST 讨论
-│   │   └── export/[roomId]/route.ts # GET 导出纪要
+│   │   ├── rooms/route.ts          # GET room list, POST create room
+│   │   ├── rooms/[id]/route.ts     # GET room detail
+│   │   ├── rooms/[id]/join/route.ts # POST join room
+│   │   ├── rooms/[id]/chapters/route.ts # GET/POST chapters
+│   │   ├── chapters/[id]/route.ts  # GET chapter detail
+│   │   ├── chapters/[id]/annotations/route.ts # GET/POST annotations
+│   │   ├── chapters/[id]/discussions/route.ts # GET/POST discussions
+│   │   └── export/[roomId]/route.ts # GET export notes
 │   └── room/
 │       └── [id]/
-│           ├── page.tsx            # 房间详情页
-│           └── chapter/[chapterId]/
-│               └── page.tsx        # 章节阅读+批注+讨论页
-├── components/ui/                  # shadcn/ui 组件（未使用，保留）
-├── storage/database/
-│   ├── supabase-client.ts          # Supabase 客户端
-│   └── shared/schema.ts            # Drizzle 表定义
+│           ├── page.tsx            # Room detail page
+│           └── chapter/[chapterId]/page.tsx  # Chapter reading + annotation + discussion
+├── components/ui/                  # shadcn/ui components (unused, kept)
+├── lib/
+│   ├── bookclub-demo.ts            # localStorage demo data layer
+│   ├── reading-log.ts              # Generated reading log data
+│   └── bookclub-demo.test.ts       # Demo store tests
+└── storage/database/
+    ├── supabase-client.ts          # Supabase client
+    └── shared/schema.ts            # Drizzle table definitions
 ```
 
-## 数据模型
-- `reading_rooms` - 读书房间（含邀请码）
-- `room_members` - 房间成员（含昵称和颜色标识）
-- `chapters` - 章节（含文本内容）
-- `annotations` - 批注（选中文本+评论，关联成员和章节）
-- `discussions` - 讨论线程（支持 parent_id 实现回复嵌套）
+## Data Model
+- `reading_rooms` - reading rooms (with invite code)
+- `room_members` - room members (nickname and color)
+- `chapters` - chapters (with text content)
+- `annotations` - annotations (selected text + comment, linked to member and chapter)
+- `discussions` - discussion threads (parent_id supports nested replies)
 
-## 设计风格
-千禧年 Windows 2000/XP 桌面应用风格。详见 DESIGN.md。
-核心特征：灰色窗口框架、蓝色渐变标题栏、3D 凹凸边框、Tahoma 字体、无圆角/阴影/动画。
+## Design Style
+Millennium-era Windows 2000/XP desktop app aesthetic. See DESIGN.md.
+Key traits: grey window frames, blue gradient title bars, 3D outset/inset borders, Tahoma font, no rounded corners/shadows/animations.
 
-## 代码规范
-- 所有页面组件使用 `'use client'` 指令
-- 使用 `Link` from `next/link` 进行页面导航
-- Supabase 操作必须检查 `{ data, error }` 并 throw
-- 字段名使用 snake_case
+## Code Conventions
+- All page components use the `'use client'` directive where interactive
+- Use `Link` from `next/link` for page navigation
+- Supabase operations must check `{ data, error }` and throw on error
+- Field names use snake_case
+- All user-facing strings are English

@@ -12,7 +12,7 @@ export async function GET(
     .select('id, title, sort_order, created_at')
     .eq('room_id', roomId)
     .order('sort_order');
-  if (error) throw new Error(`查询失败: ${error.message}`);
+  if (error) throw new Error(`Query failed: ${error.message}`);
   return NextResponse.json({ data });
 }
 
@@ -25,7 +25,7 @@ export async function POST(
   const { title, content } = body;
 
   if (!title || !content) {
-    return NextResponse.json({ error: '标题和内容不能为空' }, { status: 400 });
+    return NextResponse.json({ error: 'Title and content are required' }, { status: 400 });
   }
 
   const client = getSupabaseClient();
@@ -45,7 +45,7 @@ export async function POST(
     .insert({ room_id: roomId, title, content, sort_order: sortOrder })
     .select()
     .single();
-  if (error) throw new Error(`创建失败: ${error.message}`);
+  if (error) throw new Error(`Create failed: ${error.message}`);
 
   return NextResponse.json({ data }, { status: 201 });
 }

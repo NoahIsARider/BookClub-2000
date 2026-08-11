@@ -12,8 +12,8 @@ export async function GET(
     .select('*')
     .eq('id', id)
     .maybeSingle();
-  if (error) throw new Error(`查询失败: ${error.message}`);
-  if (!data) return NextResponse.json({ error: '章节不存在' }, { status: 404 });
+  if (error) throw new Error(`Query failed: ${error.message}`);
+  if (!data) return NextResponse.json({ error: 'Chapter not found' }, { status: 404 });
 
   return NextResponse.json({ data });
 }

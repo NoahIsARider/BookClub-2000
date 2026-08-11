@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'BookClub 2000 - 共读俱乐部',
-  description: '异步共读协作平台 - 一群人读同一本书，一起标注和讨论',
+  title: 'BookClub 2000 - Co-reading Club & Reading Log',
+  description: 'A Windows 2000-styled asynchronous co-reading platform — read the same book together, annotate and discuss. Also hosts a personal reading log.',
 };
 
 export default function RootLayout({
@@ -12,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="zh-CN">
+    <html lang="en">
       <body>{children}</body>
     </html>
   );

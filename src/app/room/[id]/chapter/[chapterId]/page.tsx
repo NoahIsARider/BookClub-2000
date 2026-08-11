@@ -197,7 +197,7 @@ function ChapterContent() {
     return (
       <div style={{ minHeight: '100vh', padding: 20, textAlign: 'center' }}>
         <div className="win-window" style={{ width: 300, margin: '0 auto', padding: 20 }}>
-          正在加载章节...
+          Loading chapter...
         </div>
       </div>
     );
@@ -207,8 +207,8 @@ function ChapterContent() {
     return (
       <div style={{ minHeight: '100vh', padding: 20, textAlign: 'center' }}>
         <div className="win-window" style={{ width: 300, margin: '0 auto' }}>
-          <div className="win-title-bar"><span>错误</span></div>
-          <div style={{ padding: 20, background: '#D4D0C8' }}>章节不存在</div>
+          <div className="win-title-bar"><span>Error</span></div>
+          <div style={{ padding: 20, background: '#D4D0C8' }}>Chapter not found</div>
         </div>
       </div>
     );
@@ -219,7 +219,7 @@ function ChapterContent() {
       <div className="win-window" style={{ maxWidth: 1100, margin: '0 auto' }}>
         {/* Title Bar */}
         <div className="win-title-bar">
-          <span>{chapter.title} - 阅读视图</span>
+          <span>{chapter.title} - Reading View</span>
           <div style={{ display: 'flex', gap: 2 }}>
             <button className="win-title-button">_</button>
             <button className="win-title-button">□</button>
@@ -231,11 +231,11 @@ function ChapterContent() {
         <div className="win-menu-bar">
           <span className="win-menu-item">
             <Link href={`/room/${roomId}?member=${encodeURIComponent(memberName)}`} style={{ color: 'inherit', textDecoration: 'none' }}>
-              ← 返回房间
+              ← Back to Room
             </Link>
           </span>
-          <span className="win-menu-item" onClick={() => setActiveTab('annotations')}>批注</span>
-          <span className="win-menu-item" onClick={() => setActiveTab('discussion')}>讨论</span>
+          <span className="win-menu-item" onClick={() => setActiveTab('annotations')}>Annotations</span>
+          <span className="win-menu-item" onClick={() => setActiveTab('discussion')}>Discussion</span>
         </div>
 
         {/* Main Content Area */}
@@ -246,8 +246,8 @@ function ChapterContent() {
             <div style={{ padding: '8px 12px', borderBottom: '1px solid #C0C0C0', background: '#D4D0C8' }}>
               <div style={{ fontSize: 13, fontWeight: 'bold' }}>{chapter.title}</div>
               <div style={{ fontSize: 10, color: '#808080' }}>
-                {member && <span>当前用户: <span style={{ color: member.color, fontWeight: 'bold' }}>{member.nickname}</span> | </span>}
-                选中文本可添加批注 | {annotations.length} 条批注
+                {member && <span>Current user: <span style={{ color: member.color, fontWeight: 'bold' }}>{member.nickname}</span> | </span>}
+                Select text to annotate | {annotations.length} annotations
               </div>
             </div>
 
@@ -279,14 +279,14 @@ function ChapterContent() {
                 onClick={() => setActiveTab('annotations')}
                 style={{ flex: 1, textAlign: 'center' }}
               >
-                批注 ({annotations.length})
+                Annotations ({annotations.length})
               </div>
               <div
                 className={`win-tab ${activeTab === 'discussion' ? 'win-tab-active' : ''}`}
                 onClick={() => setActiveTab('discussion')}
                 style={{ flex: 1, textAlign: 'center' }}
               >
-                讨论 ({discussions.length})
+                Discussion ({discussions.length})
               </div>
             </div>
 
@@ -318,10 +318,10 @@ function ChapterContent() {
         {/* Status Bar */}
         <div className="win-status-bar">
           <div className="win-status-section">
-            {annotations.length} 条批注 | {discussions.length} 条讨论
+            {annotations.length} annotations | {discussions.length} discussions
           </div>
           <div className="win-status-section" style={{ flex: 'none', width: 100, textAlign: 'center' }}>
-            {member?.nickname || '未登录'}
+            {member?.nickname || 'Not logged in'}
           </div>
         </div>
       </div>
@@ -335,12 +335,12 @@ function ChapterContent() {
         }}>
           <div className="win-window" style={{ width: 400 }}>
             <div className="win-title-bar">
-              <span>添加批注</span>
+              <span>Add Annotation</span>
               <button className="win-title-button" onClick={() => { setShowAnnotationForm(false); window.getSelection()?.removeAllRanges(); }}>×</button>
             </div>
             <div style={{ padding: 12, background: '#D4D0C8' }}>
               <div style={{ marginBottom: 8 }}>
-                <div style={{ fontSize: 11, fontWeight: 'bold', marginBottom: 4 }}>选中的文本:</div>
+                <div style={{ fontSize: 11, fontWeight: 'bold', marginBottom: 4 }}>Selected text:</div>
                 <div className="win-panel-inset" style={{
                   padding: 8, background: '#FFFFCC', fontSize: 11,
                   maxHeight: 80, overflowY: 'auto', fontStyle: 'italic',
@@ -349,19 +349,19 @@ function ChapterContent() {
                 </div>
               </div>
               <div style={{ marginBottom: 8 }}>
-                <div style={{ fontSize: 11, fontWeight: 'bold', marginBottom: 4 }}>你的批注:</div>
+                <div style={{ fontSize: 11, fontWeight: 'bold', marginBottom: 4 }}>Your annotation:</div>
                 <textarea
                   className="win-textarea"
                   style={{ width: '100%', height: 80 }}
                   value={annotationComment}
                   onChange={e => setAnnotationComment(e.target.value)}
-                  placeholder="写下你的想法..."
+                  placeholder="Write your thoughts..."
                   autoFocus
                 />
               </div>
               <div style={{ display: 'flex', gap: 4, justifyContent: 'flex-end' }}>
-                <button className="win-button" onClick={() => { setShowAnnotationForm(false); window.getSelection()?.removeAllRanges(); }}>取消</button>
-                <button className="win-button" onClick={handleAddAnnotation} style={{ fontWeight: 'bold' }}>添加批注</button>
+                <button className="win-button" onClick={() => { setShowAnnotationForm(false); window.getSelection()?.removeAllRanges(); }}>Cancel</button>
+                <button className="win-button" onClick={handleAddAnnotation} style={{ fontWeight: 'bold' }}>Add Annotation</button>
               </div>
             </div>
           </div>
@@ -377,12 +377,12 @@ function ChapterContent() {
         }} onClick={() => setSelectedAnnotation(null)}>
           <div className="win-window" style={{ width: 350 }} onClick={e => e.stopPropagation()}>
             <div className="win-title-bar">
-              <span>批注详情</span>
+              <span>Annotation Detail</span>
               <button className="win-title-button" onClick={() => setSelectedAnnotation(null)}>×</button>
             </div>
             <div style={{ padding: 12, background: '#D4D0C8' }}>
               <div style={{ marginBottom: 8 }}>
-                <div style={{ fontSize: 10, color: '#808080', marginBottom: 2 }}>原文:</div>
+                <div style={{ fontSize: 10, color: '#808080', marginBottom: 2 }}>Original text:</div>
                 <div className="win-panel-inset" style={{
                   padding: 8, background: '#FFFFCC', fontSize: 11, fontStyle: 'italic',
                 }}>
@@ -395,17 +395,17 @@ function ChapterContent() {
                     display: 'inline-block', width: 8, height: 8, borderRadius: '50%',
                     background: selectedAnnotation.room_members.color, marginRight: 4,
                   }} />
-                  {selectedAnnotation.room_members.nickname} 的批注:
+                  Annotation by {selectedAnnotation.room_members.nickname}:
                 </div>
                 <div style={{ fontSize: 11, padding: '4px 0' }}>
                   {selectedAnnotation.comment}
                 </div>
               </div>
               <div style={{ fontSize: 10, color: '#808080' }}>
-                {new Date(selectedAnnotation.created_at).toLocaleString('zh-CN')}
+                {new Date(selectedAnnotation.created_at).toLocaleString('en-US')}
               </div>
               <div style={{ marginTop: 8, textAlign: 'right' }}>
-                <button className="win-button" onClick={() => setSelectedAnnotation(null)}>关闭</button>
+                <button className="win-button" onClick={() => setSelectedAnnotation(null)}>Close</button>
               </div>
             </div>
           </div>
@@ -428,8 +428,8 @@ function AnnotationsPanel({
   if (annotations.length === 0) {
     return (
       <div style={{ padding: 16, textAlign: 'center', color: '#808080', fontSize: 11 }}>
-        暂无批注<br /><br />
-        在阅读区选中文本<br />即可添加批注
+        No annotations yet<br /><br />
+        Select text in the reading area<br />to add an annotation
       </div>
     );
   }
@@ -502,11 +502,11 @@ function DiscussionPanel({
             style={{ width: '100%', height: 50, marginBottom: 4 }}
             value={newDiscussion}
             onChange={e => setNewDiscussion(e.target.value)}
-            placeholder="发起新讨论..."
+            placeholder="Start a new discussion..."
           />
           <div style={{ textAlign: 'right' }}>
             <button className="win-button" onClick={onAddDiscussion} style={{ fontWeight: 'bold', minWidth: 60 }}>
-              发表
+              Post
             </button>
           </div>
         </div>
@@ -515,7 +515,7 @@ function DiscussionPanel({
       {/* Discussion threads */}
       {discussions.length === 0 ? (
         <div style={{ padding: 16, textAlign: 'center', color: '#808080', fontSize: 11 }}>
-          暂无讨论<br />在上方输入框发起讨论
+          No discussions yet<br />Start one in the box above
         </div>
       ) : (
         discussions.map(disc => (
@@ -527,7 +527,7 @@ function DiscussionPanel({
               }} />
               <span style={{ fontWeight: 'bold' }}>{disc.room_members.nickname}</span>
               <span>·</span>
-              <span>{new Date(disc.created_at).toLocaleString('zh-CN')}</span>
+              <span>{new Date(disc.created_at).toLocaleString('en-US')}</span>
             </div>
             <div style={{ fontSize: 11, marginBottom: 4, lineHeight: 1.6 }}>
               {disc.content}
@@ -545,7 +545,7 @@ function DiscussionPanel({
                       }} />
                       <span style={{ fontWeight: 'bold' }}>{reply.room_members.nickname}</span>
                       <span>·</span>
-                      <span>{new Date(reply.created_at).toLocaleString('zh-CN')}</span>
+                      <span>{new Date(reply.created_at).toLocaleString('en-US')}</span>
                     </div>
                     <div style={{ fontSize: 11, lineHeight: 1.5 }}>
                       {reply.content}
@@ -565,13 +565,13 @@ function DiscussionPanel({
                       style={{ width: '100%', marginBottom: 4 }}
                       value={replyContent}
                       onChange={e => setReplyContent(e.target.value)}
-                      placeholder="回复..."
+                      placeholder="Reply..."
                       autoFocus
                       onKeyDown={e => { if (e.key === 'Enter') onReply(disc.id); }}
                     />
                     <div style={{ display: 'flex', gap: 4, justifyContent: 'flex-end' }}>
-                      <button className="win-button" style={{ minWidth: 40, fontSize: 10 }} onClick={() => { setReplyingTo(null); setReplyContent(''); }}>取消</button>
-                      <button className="win-button" style={{ minWidth: 40, fontSize: 10 }} onClick={() => onReply(disc.id)}>回复</button>
+                      <button className="win-button" style={{ minWidth: 40, fontSize: 10 }} onClick={() => { setReplyingTo(null); setReplyContent(''); }}>Cancel</button>
+                      <button className="win-button" style={{ minWidth: 40, fontSize: 10 }} onClick={() => onReply(disc.id)}>Reply</button>
                     </div>
                   </div>
                 ) : (
@@ -580,7 +580,7 @@ function DiscussionPanel({
                     style={{ minWidth: 40, fontSize: 10, padding: '1px 6px' }}
                     onClick={() => { setReplyingTo(disc.id); setReplyContent(''); }}
                   >
-                    回复
+                    Reply
                   </button>
                 )}
               </div>
@@ -594,7 +594,7 @@ function DiscussionPanel({
 
 export default function ChapterPage() {
   return (
-    <Suspense fallback={<div style={{ padding: 20, textAlign: 'center' }}>加载中...</div>}>
+    <Suspense fallback={<div style={{ padding: 20, textAlign: 'center' }}>Loading...</div>}>
       <ChapterContent />
     </Suspense>
   );

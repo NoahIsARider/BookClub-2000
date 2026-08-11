@@ -6,7 +6,7 @@ export const healthCheck = pgTable("health_check", {
   updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }).defaultNow(),
 });
 
-// 读书房间
+// Reading rooms
 export const readingRooms = pgTable(
   "reading_rooms",
   {
@@ -26,7 +26,7 @@ export const readingRooms = pgTable(
   ]
 );
 
-// 房间成员
+// Room members
 export const roomMembers = pgTable(
   "room_members",
   {
@@ -41,7 +41,7 @@ export const roomMembers = pgTable(
   ]
 );
 
-// 章节
+// Chapters
 export const chapters = pgTable(
   "chapters",
   {
@@ -58,7 +58,7 @@ export const chapters = pgTable(
   ]
 );
 
-// 批注
+// Annotations
 export const annotations = pgTable(
   "annotations",
   {
@@ -77,7 +77,7 @@ export const annotations = pgTable(
   ]
 );
 
-// 讨论线程
+// Discussion threads
 export const discussions = pgTable(
   "discussions",
   {

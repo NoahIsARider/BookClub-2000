@@ -159,12 +159,12 @@ function pickColor(usedColors: string[]): string {
 }
 
 function buildMarkdown(room: RoomDetail, state: DemoState): string {
-  let markdown = `# ${room.book_title} - 共读纪要\n\n`;
-  markdown += `**读书会**: ${room.name}\n`;
+  let markdown = `# ${room.book_title} - Reading Notes\n\n`;
+  markdown += `**Club**: ${room.name}\n`;
   if (room.author) {
-    markdown += `**作者**: ${room.author}\n`;
+    markdown += `**Author**: ${room.author}\n`;
   }
-  markdown += `**导出时间**: ${new Date().toLocaleString('zh-CN')}\n\n`;
+  markdown += `**Exported**: ${new Date().toLocaleString('en-US')}\n\n`;
   markdown += `---\n\n`;
 
   for (const chapter of room.chapters) {
@@ -178,21 +178,21 @@ function buildMarkdown(room: RoomDetail, state: DemoState): string {
     }
 
     if (annotations.length > 0) {
-      markdown += `### 精彩段落与批注\n\n`;
+      markdown += `### Highlighted Passages & Annotations\n\n`;
       for (const annotation of annotations) {
         markdown += `> "${annotation.selected_text}"\n\n`;
-        markdown += `**${annotation.room_members.nickname}** 的批注: ${annotation.comment}\n\n`;
+        markdown += `**${annotation.room_members.nickname}**'s annotation: ${annotation.comment}\n\n`;
       }
     }
 
     if (discussions.length > 0) {
-      markdown += `### 讨论记录\n\n`;
+      markdown += `### Discussion Log\n\n`;
       for (const discussion of discussions) {
-        markdown += `**${discussion.room_members.nickname}** (${new Date(discussion.created_at).toLocaleString('zh-CN')}):\n`;
+        markdown += `**${discussion.room_members.nickname}** (${new Date(discussion.created_at).toLocaleString('en-US')}):\n`;
         markdown += `${discussion.content}\n\n`;
 
         for (const reply of discussion.replies) {
-          markdown += `  > **${reply.room_members.nickname}** (${new Date(reply.created_at).toLocaleString('zh-CN')}): ${reply.content}\n\n`;
+          markdown += `  > **${reply.room_members.nickname}** (${new Date(reply.created_at).toLocaleString('en-US')}): ${reply.content}\n\n`;
         }
 
         markdown += `---\n\n`;
@@ -215,12 +215,12 @@ function createSeedState(): DemoState {
     rooms: [
       {
         id: roomId,
-        name: '沙丘慢读实验室',
-        book_title: '沙丘',
+        name: 'Dune Slow-Reading Lab',
+        book_title: 'Dune',
         author: 'Frank Herbert',
-        description: '一个用于 Vercel 展示的完整演示房间，预置了章节、批注、讨论与导出能力。',
+        description: 'A complete demo room for preview — pre-loaded with chapters, annotations, discussions and export.',
         invite_code: 'DUNE24',
-        created_by: '李燃',
+        created_by: 'Li Ran',
         created_at: toIso('2026-07-01T10:00:00+08:00'),
       },
     ],
@@ -228,21 +228,21 @@ function createSeedState(): DemoState {
       {
         id: liId,
         room_id: roomId,
-        nickname: '李燃',
+        nickname: 'Li Ran',
         color: '#0000FF',
         joined_at: toIso('2026-07-01T10:00:00+08:00'),
       },
       {
         id: chenId,
         room_id: roomId,
-        nickname: '陈未',
+        nickname: 'Chen Wei',
         color: '#FF0000',
         joined_at: toIso('2026-07-01T10:05:00+08:00'),
       },
       {
         id: xuId,
         room_id: roomId,
-        nickname: '许观',
+        nickname: 'Xu Guan',
         color: '#008000',
         joined_at: toIso('2026-07-01T10:09:00+08:00'),
       },
@@ -251,18 +251,18 @@ function createSeedState(): DemoState {
       {
         id: chapterOneId,
         room_id: roomId,
-        title: '第一章 香料、预言与离开',
+        title: 'Chapter 1: Spice, Prophecy and Departure',
         sort_order: 1,
         created_at: toIso('2026-07-01T10:12:00+08:00'),
-        content: '保罗意识到，真正令人恐惧的不是前路未知，而是命运似乎早已把他的名字写进沙丘的风里。离开熟悉世界时，他第一次理解了预言并不是答案，而是一种逼迫人行动的压力。',
+        content: 'Paul realises that what is truly frightening is not the unknown road ahead, but the sense that fate has already written his name into the wind of Arrakis. Leaving his familiar world, he understands for the first time that prophecy is not an answer — it is a pressure that forces you to act.',
       },
       {
         id: chapterTwoId,
         room_id: roomId,
-        title: '第二章 沙漠中的感知训练',
+        title: 'Chapter 2: Perception Training in the Desert',
         sort_order: 2,
         created_at: toIso('2026-07-01T10:20:00+08:00'),
-        content: '杰西卡告诉保罗，真正的感知不是看见更多，而是学会分辨哪些细节正在悄悄改变局势。沙漠从不直接给出线索，它只奖励那些足够专注的人。',
+        content: 'Jessica tells Paul that true perception is not about seeing more, but about learning to tell which details are quietly changing the situation. The desert never hands you clues directly — it only rewards those who stay focused enough to notice.',
       },
     ],
     annotations: [
@@ -270,20 +270,20 @@ function createSeedState(): DemoState {
         id: 'annotation_seed_1',
         chapter_id: chapterOneId,
         member_id: liId,
-        selected_text: '预言并不是答案，而是一种逼迫人行动的压力',
-        comment: '这句很适合解释为什么人物会被“未来感”反向塑形。',
-        start_offset: 44,
-        end_offset: 68,
+        selected_text: 'prophecy is not an answer — it is a pressure that forces you to act',
+        comment: 'This line explains why characters get reshaped by the "future" they sense.',
+        start_offset: 222,
+        end_offset: 289,
         created_at: toIso('2026-07-01T10:30:00+08:00'),
       },
       {
         id: 'annotation_seed_2',
         chapter_id: chapterTwoId,
         member_id: chenId,
-        selected_text: '沙漠从不直接给出线索，它只奖励那些足够专注的人',
-        comment: '这像是整本书的方法论，也像在讲阅读本身。',
-        start_offset: 43,
-        end_offset: 69,
+        selected_text: 'The desert never hands you clues directly — it only rewards those who stay focused',
+        comment: 'Feels like the methodology of the whole book — and of reading itself.',
+        start_offset: 143,
+        end_offset: 225,
         created_at: toIso('2026-07-01T10:42:00+08:00'),
       },
     ],
@@ -293,7 +293,7 @@ function createSeedState(): DemoState {
         chapter_id: chapterOneId,
         member_id: chenId,
         parent_id: null,
-        content: '这里的“预言”更像是一种社会机制，而不是神秘主义。',
+        content: 'The "prophecy" here reads more like a social mechanism than mysticism.',
         created_at: toIso('2026-07-01T10:35:00+08:00'),
       },
       {
@@ -301,7 +301,7 @@ function createSeedState(): DemoState {
         chapter_id: chapterOneId,
         member_id: xuId,
         parent_id: 'discussion_seed_1',
-        content: '同意，它让角色的每一步都带着被观看的压力。',
+        content: 'Agreed — it makes every step of the characters feel watched.',
         created_at: toIso('2026-07-01T10:37:00+08:00'),
       },
       {
@@ -309,7 +309,7 @@ function createSeedState(): DemoState {
         chapter_id: chapterTwoId,
         member_id: liId,
         parent_id: null,
-        content: '这一章把“训练”写得像是在升级人的注意力系统。',
+        content: 'This chapter writes "training" as an upgrade to your attention system.',
         created_at: toIso('2026-07-01T10:45:00+08:00'),
       },
     ],
@@ -560,7 +560,7 @@ export function createDemoStore(storage: StorageLike) {
     const state = loadState();
     const room = getRoom(roomId);
     if (!room) {
-      throw new Error('房间不存在');
+      throw new Error('Room not found');
     }
 
     return {

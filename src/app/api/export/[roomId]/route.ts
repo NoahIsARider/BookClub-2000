@@ -14,8 +14,8 @@ export async function GET(
     .select('*')
     .eq('id', roomId)
     .maybeSingle();
-  if (roomError) throw new Error(`查询房间失败: ${roomError.message}`);
-  if (!room) return NextResponse.json({ error: '房间不存在' }, { status: 404 });
+  if (roomError) throw new Error(`Failed to query room: ${roomError.message}`);
+  if (!room) return NextResponse.json({ error: 'Room not found' }, { status: 404 });
 
   // Get members
   const { data: members } = await client
@@ -106,25 +106,25 @@ function generateMarkdown(
     }>;
   }>
 ): string {
-  let md = `# ${room.book_title} - 共读纪要\n\n`;
-  md += `**读书会**: ${room.name}\n`;
-  if (room.author) md += `**作者**: ${room.author}\n`;
-  md += `**导出时间**: ${new Date().toLocaleString('zh-CN')}\n\n`;
+  let md = `# ${room.book_title} - Reading Notes\n\n`;
+  md += `**Club**: ${room.name}\n`;
+  if (room.author) md += `**Author**: ${room.author}\n`;
+  md += `**Exported**: ${new Date().toLocaleString('en-US')}\n\n`;
   md += `---\n\n`;
 
   for (const section of exportData) {
     md += `## ${section.chapter}\n\n`;
 
     if (section.annotations.length > 0) {
-      md += `### 精彩段落与批注\n\n`;
+      md += `### Highlighted Passages & Annotations\n\n`;
       for (const ann of section.annotations) {
         md += `> "${ann.text}"\n\n`;
-        md += `**${ann.author}** 的批注: ${ann.comment}\n\n`;
+        md += `**${ann.author}**'s annotation: ${ann.comment}\n\n`;
       }
     }
 
     if (section.discussions.length > 0) {
-      md += `### 讨论记录\n\n`;
+      md += `### Discussion Log\n\n`;
       for (const disc of section.discussions) {
         md += `**${disc.author}** (${new Date(disc.time).toLocaleString('zh-CN')}):\n`;
         md += `${disc.content}\n\n`;

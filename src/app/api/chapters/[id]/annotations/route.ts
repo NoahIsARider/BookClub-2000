@@ -12,7 +12,7 @@ export async function GET(
     .select('*, room_members(nickname, color)')
     .eq('chapter_id', chapterId)
     .order('start_offset');
-  if (error) throw new Error(`查询失败: ${error.message}`);
+  if (error) throw new Error(`Query failed: ${error.message}`);
   return NextResponse.json({ data });
 }
 
@@ -25,7 +25,7 @@ export async function POST(
   const { member_id, selected_text, comment, start_offset, end_offset } = body;
 
   if (!member_id || !selected_text || !comment) {
-    return NextResponse.json({ error: '缺少必填字段' }, { status: 400 });
+    return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
   }
 
   const client = getSupabaseClient();
@@ -41,7 +41,7 @@ export async function POST(
     })
     .select('*, room_members(nickname, color)')
     .single();
-  if (error) throw new Error(`创建批注失败: ${error.message}`);
+  if (error) throw new Error(`Failed to create annotation: ${error.message}`);
 
   return NextResponse.json({ data }, { status: 201 });
 }
